@@ -18,7 +18,9 @@ sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/dotnet\/runtime-deps\:3.1
 # Build
 
 docker build --tag ghcr.io/golden-containers/dotnet/runtime-deps:3.1-bullseye-slim src/runtime-deps/3.1/bullseye-slim/amd64/
+docker build --tag ghcr.io/golden-containers/dotnet/runtime:3.1-bullseye-slim src/runtime/3.1/bullseye-slim/amd64/
 
 # Push
 
 docker push ghcr.io/golden-containers/dotnet/runtime-deps -a
+docker push ghcr.io/golden-containers/dotnet/runtime -a
