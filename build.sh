@@ -12,11 +12,11 @@ cd dotnet-docker
 
 # Transform
 
-sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/" runtime-deps/3.1/bullseye-slim/amd64/Dockerfile
+sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/" src/runtime-deps/3.1/bullseye-slim/amd64/Dockerfile
 
 # Build
 
-docker build --tag ghcr.io/golden-containers/dotnet/runtime-deps:3.1-bullseye-slim runtime-deps/3.1/bullseye-slim/amd64/Dockerfile
+docker build --tag ghcr.io/golden-containers/dotnet/runtime-deps:3.1-bullseye-slim src/runtime-deps/3.1/bullseye-slim/amd64/
 
 # Push
 
