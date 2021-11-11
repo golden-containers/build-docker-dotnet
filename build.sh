@@ -20,4 +20,4 @@ docker build --tag ghcr.io/golden-containers/dotnet/runtime-deps:3.1-bullseye-sl
 
 # Push
 
-docker push ghcr.io/golden-containers/dotnet -a
+docker push ghcr.io/golden-containers/dotnet/runtime-deps -a
