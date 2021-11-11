@@ -14,13 +14,16 @@ cd dotnet-docker
 
 sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/" src/runtime-deps/3.1/bullseye-slim/amd64/Dockerfile
 sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/dotnet\/runtime-deps\:3.1-bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/dotnet\/runtime-deps\:3.1-bullseye-slim/" src/runtime/3.1/bullseye-slim/amd64/Dockerfile
+sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/dotnet\/runtime\:3.1-bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/dotnet\/runtime\:3.1-bullseye-slim/" src/aspnet/3.1/bullseye-slim/amd64/Dockerfile
 
 # Build
 
 docker build --tag ghcr.io/golden-containers/dotnet/runtime-deps:3.1-bullseye-slim src/runtime-deps/3.1/bullseye-slim/amd64/
 docker build --tag ghcr.io/golden-containers/dotnet/runtime:3.1-bullseye-slim src/runtime/3.1/bullseye-slim/amd64/
+docker build --tag ghcr.io/golden-containers/dotnet/aspnet:3.1-bullseye-slim src/aspnet/3.1/bullseye-slim/amd64/
 
 # Push
 
 docker push ghcr.io/golden-containers/dotnet/runtime-deps -a
 docker push ghcr.io/golden-containers/dotnet/runtime -a
+docker push ghcr.io/golden-containers/dotnet/aspnet -a
