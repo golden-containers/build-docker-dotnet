@@ -16,4 +16,4 @@ jobs:
     - name: Log in to registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin    
     - name: Build
-      run: ./build.sh
+      run: ./build.sh "org.opencontainers.image.description=\"https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\""
