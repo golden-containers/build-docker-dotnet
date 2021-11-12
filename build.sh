@@ -27,10 +27,10 @@ echo "LABEL ${1:-DEBUG=TRUE}" >> src/sdk/3.1/bullseye/amd64/Dockerfile
 
 # Build
 
-docker build --tag ghcr.io/golden-containers/dotnet/runtime-deps:3.1-bullseye-slim src/runtime-deps/3.1/bullseye-slim/amd64/
-docker build --tag ghcr.io/golden-containers/dotnet/runtime:3.1-bullseye-slim src/runtime/3.1/bullseye-slim/amd64/
-docker build --tag ghcr.io/golden-containers/dotnet/aspnet:3.1-bullseye-slim src/aspnet/3.1/bullseye-slim/amd64/
-docker build --tag ghcr.io/golden-containers/dotnet/sdk:3.1-bullseye-slim src/sdk/3.1/bullseye/amd64/
+docker build src/runtime-deps/3.1/bullseye-slim/amd64/ --tag ghcr.io/golden-containers/dotnet/runtime-deps:3.1-bullseye-slim --label ${1:-DEBUG=TRUE}
+docker build src/runtime/3.1/bullseye-slim/amd64/ --tag ghcr.io/golden-containers/dotnet/runtime:3.1-bullseye-slim --label ${1:-DEBUG=TRUE}
+docker build src/aspnet/3.1/bullseye-slim/amd64/ --tag ghcr.io/golden-containers/dotnet/aspnet:3.1-bullseye-slim --label ${1:-DEBUG=TRUE}
+docker build src/sdk/3.1/bullseye/amd64/ --tag ghcr.io/golden-containers/dotnet/sdk:3.1-bullseye-slim --label ${1:-DEBUG=TRUE}
 
 # Push
 
