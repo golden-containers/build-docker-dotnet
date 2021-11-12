@@ -13,16 +13,16 @@ cd dotnet-docker
 # Transform
 
 sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/" src/runtime-deps/3.1/bullseye-slim/amd64/Dockerfile
-echo "LABEL $1" >> src/runtime-deps/3.1/bullseye-slim/amd64/Dockerfile
+echo "LABEL ${1:-DEBUG=TRUE}" >> src/runtime-deps/3.1/bullseye-slim/amd64/Dockerfile
 
 sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/dotnet\/runtime-deps\:3.1-bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/dotnet\/runtime-deps\:3.1-bullseye-slim/" src/runtime/3.1/bullseye-slim/amd64/Dockerfile
-echo "LABEL $1" >> src/runtime/3.1/bullseye-slim/amd64/Dockerfile
+echo "LABEL ${1:-DEBUG=TRUE}" >> src/runtime/3.1/bullseye-slim/amd64/Dockerfile
 
 sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/dotnet\/runtime\:3.1-bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/dotnet\/runtime\:3.1-bullseye-slim/" src/aspnet/3.1/bullseye-slim/amd64/Dockerfile
-echo "LABEL $1" >> src/aspnet/3.1/bullseye-slim/amd64/Dockerfile
+echo "LABEL ${1:-DEBUG=TRUE}" >> src/aspnet/3.1/bullseye-slim/amd64/Dockerfile
 
 sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/buildpack-deps\:bullseye-scm/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/buildpack-deps\:bullseye-scm/" src/sdk/3.1/bullseye/amd64/Dockerfile
-echo "LABEL $1" >> src/sdk/3.1/bullseye/amd64/Dockerfile
+echo "LABEL ${1:-DEBUG=TRUE}" >> src/sdk/3.1/bullseye/amd64/Dockerfile
 
 
 # Build
