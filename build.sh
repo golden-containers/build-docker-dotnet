@@ -13,27 +13,44 @@ cd dotnet-docker
 # Transform
 
 # This sed syntax is GNU sed specific
-[ -z $(command -v gsed) ] && GNU_SED=sed || GNU_SED=gsed
+[ -z "$(command -v gsed)" ] && GNU_SED=sed || GNU_SED=gsed
 
-sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/" src/runtime-deps/3.1/bullseye-slim/amd64/Dockerfile
+${GNU_SED} -i \
+    -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/; t" \
+    -e "1,// s//FROM ghcr.io\/golden-containers\/debian\:bullseye-slim/" \
+    src/runtime-deps/3.1/bullseye-slim/amd64/Dockerfile
 
-sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/dotnet\/runtime-deps\:3.1-bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/dotnet\/runtime-deps\:3.1-bullseye-slim/" src/runtime/3.1/bullseye-slim/amd64/Dockerfile
+${GNU_SED} -i \
+    -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/dotnet\/runtime-deps\:3.1-bullseye-slim/; t" \
+    -e "1,// s//FROM ghcr.io\/golden-containers\/dotnet\/runtime-deps\:3.1-bullseye-slim/" \
+    src/runtime/3.1/bullseye-slim/amd64/Dockerfile
 
-sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/dotnet\/runtime\:3.1-bullseye-slim/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/dotnet\/runtime\:3.1-bullseye-slim/" src/aspnet/3.1/bullseye-slim/amd64/Dockerfile
+${GNU_SED} -i \
+    -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/dotnet\/runtime\:3.1-bullseye-slim/; t" \
+    -e "1,// s//FROM ghcr.io\/golden-containers\/dotnet\/runtime\:3.1-bullseye-slim/" \
+    src/aspnet/3.1/bullseye-slim/amd64/Dockerfile
 
-sed -i -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/buildpack-deps\:bullseye-scm/; t" -e "1,// s//FROM ghcr.io\/golden-containers\/buildpack-deps\:bullseye-scm/" src/sdk/3.1/bullseye/amd64/Dockerfile
-
+${GNU_SED} -i \
+    -e "1 s/FROM.*/FROM ghcr.io\/golden-containers\/buildpack-deps\:bullseye-scm/; t" \
+    -e "1,// s//FROM ghcr.io\/golden-containers\/buildpack-deps\:bullseye-scm/" \
+    src/sdk/3.1/bullseye/amd64/Dockerfile
 
 # Build
 
-docker build src/runtime-deps/3.1/bullseye-slim/amd64/ --platform linux/amd64 --tag ghcr.io/golden-containers/dotnet/runtime-deps:3.1-bullseye-slim --label ${1:-DEBUG=TRUE}
-docker build src/runtime/3.1/bullseye-slim/amd64/ --platform linux/amd64 --tag ghcr.io/golden-containers/dotnet/runtime:3.1-bullseye-slim --label ${1:-DEBUG=TRUE}
-docker build src/aspnet/3.1/bullseye-slim/amd64/ --platform linux/amd64 --tag ghcr.io/golden-containers/dotnet/aspnet:3.1-bullseye-slim --label ${1:-DEBUG=TRUE}
-docker build src/sdk/3.1/bullseye/amd64/ --platform linux/amd64 --tag ghcr.io/golden-containers/dotnet/sdk:3.1-bullseye-slim --label ${1:-DEBUG=TRUE}
+[ -z "${1:-}" ] && BUILD_LABEL_ARG="" || BUILD_LABEL_ARG=" --label \"${1}\" "
+
+BUILD_PLATFORM=" --platform linux/amd64 "
+GCI_URL="ghcr.io/golden-containers"
+BUILD_ARGS=" ${BUILD_LABEL_ARG} ${BUILD_PLATFORM} "
+
+docker build src/runtime-deps/3.1/bullseye-slim/amd64/ --tag ${GCI_URL}/dotnet/runtime-deps:3.1-bullseye-slim ${BUILD_ARGS}
+docker build src/runtime/3.1/bullseye-slim/amd64/ --tag ${GCI_URL}/dotnet/runtime:3.1-bullseye-slim ${BUILD_ARGS}
+docker build src/aspnet/3.1/bullseye-slim/amd64/ --tag ${GCI_URL}/dotnet/aspnet:3.1-bullseye-slim ${BUILD_ARGS}
+docker build src/sdk/3.1/bullseye/amd64/ --tag ${GCI_URL}/dotnet/sdk:3.1-bullseye ${BUILD_ARGS}
 
 # Push
 
-docker push ghcr.io/golden-containers/dotnet/runtime-deps -a
-docker push ghcr.io/golden-containers/dotnet/runtime -a
-docker push ghcr.io/golden-containers/dotnet/aspnet -a
-docker push ghcr.io/golden-containers/dotnet/sdk -a
+docker push ${GCI_URL}/dotnet/runtime-deps -a
+docker push ${GCI_URL}/dotnet/runtime -a
+docker push ${GCI_URL}/dotnet/aspnet -a
+docker push ${GCI_URL}/dotnet/sdk -a
